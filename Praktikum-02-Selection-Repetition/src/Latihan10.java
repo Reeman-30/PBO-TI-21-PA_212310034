@@ -2,68 +2,119 @@ import java.util.Scanner;
 
 public class Latihan10 {
 	
+	static long saldo = 15000000;
+
 	public static void main(String[] args) {
 		Scanner input = new Scanner(System.in);
-		final String pin = "3030"; // variabel konstan pin
-		boolean isSama = true;
+		final String pin = "212310034"; // variabel konstan pin
+		boolean isValid = true;
 		String inputPin;
-		byte pilihMenu;
-		long saldo = 5000000; // 5.000.000
-		int tarikSaldo, setorSaldo;
-		int percobaan = 0;
+		int pinValid = 1; // variabel validasi kesalahan masukan pin
 		
-		System.out.println("===PROGRAM ATM SEDERHANA===");
-		
-		while(isSama) {
-			System.out.print("Masukkan PIN = ");
-			inputPin = input.nextLine();
+		while(isValid) {
+			System.out.print("Masukkan pin Anda = ");
+			inputPin = input.next();
 			
-			if(inputPin.equals(pin)) {
-				isSama = false;
-			} else if(!inputPin.equals(pin) && percobaan < 3) {
-				System.out.println("Pin salah! Silahkan coba lagi");
+			if(!inputPin.equals(pin)) {
+				System.out.println("Pin salah!");
 				
-				if(percobaan == 3) {
-					System.out.println("Maaf Anda salah password sebanyak 3 kali, silahkan coba lagi dalam waktu 30 menit");
-					System.exit(0);
+				// kondisi jika pin salah sebanyak 3 kali
+				if(pinValid == 3) {
+					System.out.println("Maaf, kartu Anda terblokir. Silahkan hubungi Call Center");
+					isValid = false;
 				}
 				
-				percobaan++;
-				System.out.println(percobaan);
-			} 
-			
+				pinValid++;
+			} else {
+				menuBank();
+			}
 		}
-				
-		while(true) {
-			System.out.println("Pilih menu ATM:");
+		input.close(); // menutup proses input user
+	}
+	
+	static void menuBank() {
+		Scanner inputVal = new Scanner(System.in);
+		boolean isUlang = true;
+		long saldoSetor, tarikTunai;
+		byte pilihanMenu;
+		String varUlang;
+		
+		while(isUlang) {
+			System.out.println("====SISTEM BANK MINI====\n");
+			System.out.println("SELAMAT DATANG DI BANK MINI IBI KESATUAN");
+			System.out.println("Silahkan pilih menu :");
 			System.out.println("1. Lihat Saldo\n"
 					+ "2. Setor Tunai\n"
 					+ "3. Tarik Tunai\n"
 					+ "4. Keluar\n");
-			System.out.print("Pilih : ");
-			pilihMenu = input.nextByte();
+			System.out.print("Pilihan : ");
+			pilihanMenu = inputVal.nextByte();
+			inputVal.nextLine(); // Agar proses input user pada line 79 tidak di-skip atau dilewati secara otomatis
 			
-			switch(pilihMenu) {
+			switch(pilihanMenu) {
 				case 1:
-					getSaldo(saldo);
+					cekSaldo(saldo);
 				break;
-				
 				case 2:
-					System.out.print("Masukkan nominal setor tunai = Rp ");
-					setorSaldo = input.nextInt();					
-					saldo += setorSaldo;
-					System.out.println("Setoran tunai berhasl!\n");
-					
-					getSaldo(saldo);
-					
-					System.out.println();
-				break;					
+					System.out.print("Masukkan jumlah setoran: Rp ");
+					saldoSetor = inputVal.nextLong();
+					setorSaldo(saldoSetor);
+				break;
+				case 3:
+					System.out.print("Masukkan jumlah penarikan uang: Rp ");
+					tarikTunai = inputVal.nextLong();
+					tarikSaldo(tarikTunai);
+				break;
+				case 4:
+					System.out.println("Terima kasih atas kunjungannya");
+					isUlang = false;
+					System.exit(0);
+				break;
+				default:
+					System.out.println("Masukkan salah!");
 			}
+			
+			while(true) {
+			System.out.print("Keluar aplikasi? [Y/N] = ");
+			varUlang = inputVal.next();
+			
+			System.out.println();
+			
+				if(varUlang.equalsIgnoreCase("N")) {
+					break;
+				} else if(varUlang.equalsIgnoreCase("Y")){
+					System.out.println("Terima kasih atas kunjungannya");
+					System.exit(0); // Melakukan exit atau teriminasi pada program 
+				} else {
+					System.out.println("Masukkan salah!");
+					continue;
+				}
+				
+			}
+			
 		}
+		inputVal.close(); // menutup proses input user
 	}
 	
-	static void getSaldo(long valSaldo) {
-		System.out.println("Saldo Anda = Rp " + valSaldo);
+	static void cekSaldo(long val) {
+		System.out.println("Saldo Anda : Rp " + val);
+	}
+	
+	static void setorSaldo(long val) {
+		System.out.println("Setoran berhasil!");
+		val += saldo;
+		saldo = val;
+		cekSaldo(saldo);
+	}
+	
+	static void tarikSaldo(long val) {
+		if(saldo > val) {
+			saldo -= val;
+			System.out.println("Silahkan ambil uangnya");
+			cekSaldo(saldo);
+		} else {
+			System.out.println("Maaf saldo tidak cukup untuk melakukan penarikan");
+		}
 	}
 
 }
