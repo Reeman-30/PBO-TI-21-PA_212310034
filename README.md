@@ -1,4 +1,4 @@
 # Selamat Datang di Repositori Tugas PBO JAVA
 
-Saya Raden Rayyan Pratama Rakhmadie (212310034) <br>
-Jurusan Teknologi Informasi
+Nama : Raden Rayyan Pratama Rakhmadie<br>
+NPM : 212310034<br>
