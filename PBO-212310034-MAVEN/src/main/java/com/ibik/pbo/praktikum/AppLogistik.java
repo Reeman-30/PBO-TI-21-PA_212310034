@@ -105,7 +105,7 @@ public class AppLogistik {
                     }
                 }
             }
-        } else if(pesanan.size() < 0) {
+        } else {
             mainApps.ExitApps("Data kosong!\n");
         }
     }
