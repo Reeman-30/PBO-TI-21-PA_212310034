@@ -20,6 +20,7 @@ public class AppLogistik {
 
         while(!is_exit) {
             String pilihan_menu = JOptionPane.showInputDialog(null, teks_menus, "Aplikasi PT. XYZ", JOptionPane.QUESTION_MESSAGE);
+            
             if((pilihan_menu != null) && (pilihan_menu.matches(regex_angka))) {
                 switch(Integer.parseInt(pilihan_menu)) {
                     case 1:
@@ -31,52 +32,55 @@ public class AppLogistik {
                     break;
 
                     default:
-                        mainApps.ExitApps("Menu tidak ada!\n");
+                        JOptionPane.showMessageDialog(null, "Menu tidak ada!", "PERINGATAN", JOptionPane.ERROR_MESSAGE);
                 }
             } else if((pilihan_menu != null) && (!pilihan_menu.matches(regex_angka))) {
-                JOptionPane.showMessageDialog(null, "Inputan harus angka!", "PERINGATAN", JOptionPane.WARNING_MESSAGE);
-            } else if(pilihan_menu == null) {
+                JOptionPane.showMessageDialog(null, "Inputan harus angka!", "PERINGATAN", JOptionPane.ERROR_MESSAGE);
+            } else {
                 mainApps.ExitApps("");
             }
+
         }
     }
 
     private void InputPesanan() {
-        String[] title_pesanan = {"Berat Barang (gr)", "Jarak Barang (km)"};
-        boolean is_exit_pesanan = false;
+        final String[] title_pesanan = {"Berat Barang (gr)", "Jarak Barang (km)"};
+        boolean is_exit_input_pesanan = false;
         int i = 0;
 
-        while(!is_exit_pesanan) {
+        while(!is_exit_input_pesanan) {
             while(i < title_pesanan.length) {
                 String values = JOptionPane.showInputDialog(null,
                                 "Masukkan " + title_pesanan[i] + ":",
                                 "Input " + title_pesanan[i],
                                 JOptionPane.INFORMATION_MESSAGE);
+
                 if((values != null) && (values.matches(regex_angka))) {
                     pesanan.add(values);
                     i++;
-                    if(i == 2) {
-                        mainApps.CetakResi();
-                    }
-                } else if(values != null && (!values.matches(regex_angka))) {
-                    JOptionPane.showMessageDialog(null, "Inputan harus angka!", "PERINGATAN", JOptionPane.WARNING_MESSAGE);
+                    if(i == 2) { mainApps.CetakResi(); }
+                } else if((values != null) && (!values.matches(regex_angka))) {
+                    JOptionPane.showMessageDialog(null, "Inputan harus angka!", "PERINGATAN", JOptionPane.ERROR_MESSAGE);
                     i = 0;
-                } else if(values == null) {
+                } else {
                     int pilihan = JOptionPane.showConfirmDialog(null, 
                                   "Apakah Anda ingin keluar ke menu utama?",
                                   "Konfirmasi",
                                   JOptionPane.YES_NO_OPTION,
                                   JOptionPane.WARNING_MESSAGE);
+
                     if(pilihan == JOptionPane.YES_OPTION) {
                         i = 2;
-                        is_exit_pesanan = true;
+                        is_exit_input_pesanan = true;
                     } else {
-                        is_exit_pesanan = false;
+                        is_exit_input_pesanan = false;
                         i = 0;
                     }
+
                 }
+
             }
-            is_exit_pesanan = true;
+            is_exit_input_pesanan = true;
         }
     }
 
@@ -87,15 +91,20 @@ public class AppLogistik {
         if(pesanan.size() > i) {
             while(!is_exit_lacak_pesanan) {
                 String input_resi = JOptionPane.showInputDialog(null, "Masukkan nomor resi");
+                
                 if((input_resi != null) && (input_resi.equals(pesanan.get(3)))) {
                     mainApps.CetakResi();
                     is_exit_lacak_pesanan = true;
-                } else if(input_resi == null) {
+                } else if((input_resi != null) && (!input_resi.equals(pesanan.get(3)))) {
+                    JOptionPane.showMessageDialog(null, "Nomor Resi tidak terdaftar!", "PERINGATAN", JOptionPane.ERROR_MESSAGE);
+                    i = 0;
+                } else {
                     int pilihan = JOptionPane.showConfirmDialog(null, 
                                   "Apakah Anda ingin keluar ke menu utama?",
                                   "Konfirmasi",
                                   JOptionPane.YES_NO_OPTION,
                                   JOptionPane.WARNING_MESSAGE);
+
                     if(pilihan == JOptionPane.YES_OPTION) {
                         is_exit_lacak_pesanan = true;
                         i = 4;
@@ -103,10 +112,12 @@ public class AppLogistik {
                         is_exit_lacak_pesanan = false;
                         i = 0;
                     }
+
                 }
+
             }
         } else {
-            mainApps.ExitApps("Data kosong!\n");
+            JOptionPane.showMessageDialog(null, "Data masih kosong!", "PERINGATAN", JOptionPane.ERROR_MESSAGE);
         }
     }
     
