@@ -33,12 +33,13 @@ public class KeyListenerGames extends JFrame implements KeyListener {
     }
 
     private void GenerateGamesUI(KeyListenerGames frame) {
-        // Attribute for images path
+        // Initialize URL attribute for images folder path
         m_up = KeyListenerGames.class.getClassLoader().getResource(images_path + "maxwell_up.png");
         m_down =  KeyListenerGames.class.getClassLoader().getResource(images_path + "maxwell_down.png");
         m_left = KeyListenerGames.class.getClassLoader().getResource(images_path + "maxwell_left.png");
         m_right = KeyListenerGames.class.getClassLoader().getResource(images_path + "maxwell_right.png");
 
+        // Initialize icon
         icon_maxwell_up = new ImageIcon(m_up);
         icon_maxwell_down = new ImageIcon(m_down);
         icon_maxwell_left = new ImageIcon(m_left);
@@ -53,7 +54,7 @@ public class KeyListenerGames extends JFrame implements KeyListener {
         frame.getContentPane().setBackground(Color.CYAN);
     }
 
-    // Method for checking if the X axis of lbl_image is out of bounds
+    // Method for checking if the X axis of lbl_img is out of bounds
     private void IsIconXAxisOutOfBounds() {
         if(lbl_img.getX() == 440 || lbl_img.getX() == 450) {
             lbl_img.setLocation(-60, lbl_img.getY());
@@ -62,7 +63,7 @@ public class KeyListenerGames extends JFrame implements KeyListener {
         }
     }
     
-    // Method for checking if the Y axis of lbl_image is out of bounds
+    // Method for checking if the Y axis of lbl_img is out of bounds
     private void IsIconYAxisOutOfBounds() {
         if(lbl_img.getY() == 150 || lbl_img.getY() == 160) {
             lbl_img.setLocation(lbl_img.getX(), -60);
